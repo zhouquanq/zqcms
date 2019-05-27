@@ -10,22 +10,21 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">文章标题</label>
                             <div class="layui-input-inline">
-                                <input type="text" name="title" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
+                                <input type="text" name="title" value="{$oldArticle.title}" placeholder="请输入文章标题" autocomplete="off" class="layui-input">
                             </div>
                         </div>
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">文章摘要</label>
                             <div class="layui-input-block">
-                                <textarea name="digest" placeholder="请输入文章摘要" class="layui-textarea"></textarea>
+                                <textarea name="digest" placeholder="请输入文章摘要" class="layui-textarea">{$oldArticle.digest}</textarea>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">文章分类</label>
                             <div class="layui-input-inline">
                                 <select name="category" lay-verify="">
-                                    <option value="">请选择分类</option>
                                     {volist name="cateTree" id="vo"}
-                                    <option value="{$vo.cid}">{$vo.html}— {$vo.cname}</option>
+                                    <option value="{$vo.cid}" {if $oldArticle.category_cid == $vo.cid } selected {/if} >{$vo.html}— {$vo.cname}</option>
                                     {/volist}
                                 </select>
                             </div>
@@ -33,7 +32,7 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">文章图片</label>
                             <div class="layui-input-inline">
-                                <input name="thumb" id="article_img" placeholder="图片地址"
+                                <input name="thumb" id="article_img" placeholder="图片地址" value="{$oldArticle.thumb}"
                                        disabled class="layui-input">
                             </div>
                             <div class="layui-input-inline layui-btn-container layui-upload" style="width: auto;">
@@ -47,23 +46,23 @@
                         <div class="layui-form-item">
                             <label class="layui-form-label">是否发布</label>
                             <div class="layui-input-inline">
-                                <input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" checked lay-text="是|否">
+                                <input type="checkbox" lay-filter="switch" name="status" lay-skin="switch" {if $oldArticle.status == "已发布"}checked{/if} lay-text="是|否">
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">文章属性</label>
                             <div class="layui-input-block">
-                                <input type="checkbox" name="attrs0" value="推荐" title="推荐" checked >
-                                <input type="checkbox" name="attrs1" value="热门" title="热门">
-                                <input type="checkbox" name="attrs2" value="置顶" title="置顶">
-                                <input type="checkbox" name="attrs3" value="图文" title="图文">
+                                <input type="checkbox" name="attrs0" value="推荐" title="推荐" {in name="$articleAttr[0]" value = "$oldArticle.attr"} checked {/in}>
+                                <input type="checkbox" name="attrs1" value="热门" title="热门" {in name="$articleAttr[1]" value = "$oldArticle.attr"} checked {/in}>
+                                <input type="checkbox" name="attrs2" value="置顶" title="置顶" {in name="$articleAttr[2]" value = "$oldArticle.attr"} checked {/in}>
+                                <input type="checkbox" name="attrs3" value="图文" title="图文" {in name="$articleAttr[3]" value = "$oldArticle.attr"} checked {/in}>
                             </div>
                         </div>
                         <div class="layui-form-item">
                             <label class="layui-form-label">文章标签</label>
                             <div class="layui-input-block">
                                 {volist name="tag_list" id="vo" key="k"}
-                                <input type="checkbox" name="tags{$k}" value="{$vo.tid}" title="{$vo.tagname}" lay-skin="primary">
+                                <input type="checkbox" name="tags{$k}" {in name="$vo.tid" value = "$articleTag"} checked {/in} value="{$vo.tid}" title="{$vo.tagname}" lay-skin="primary" >
                                 {/volist}
                             </div>
                         </div>
@@ -71,7 +70,7 @@
                         <div class="layui-form-item layui-form-text">
                             <label class="layui-form-label">文章内容</label>
                             <div class="layui-input-block">
-                                <textarea id="content" name="content" style="display: none" lay-verify="article_desc" class="layui-textarea"></textarea>
+                                <textarea id="content" name="content" style="display: none" lay-verify="article_desc" class="layui-textarea">{$oldArticle.content}</textarea>
                             </div>
                         </div>
 

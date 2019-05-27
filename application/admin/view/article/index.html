@@ -84,13 +84,13 @@
 
         //工具栏监听事件
         table.on('tool(articles)', function(obj){
-            var uid = obj.data.uid;
+            var aid = obj.data.aid;
             //删除
             if(obj.event === 'del'){
                 layer.confirm('确定删除么？', function(index){
                     $.ajax({
                         url:'{:url("Admin/article/do_del")}',
-                        data:{'uid':uid},
+                        data:{'aid':aid},
                         type: "post",
                         dataType:'json',
                         success:function(re){
@@ -107,9 +107,9 @@
             else if(obj.event === 'edit'){
                 layer.open({
                     type: 2
-                    ,title: '修改用户信息'
-                    ,content: '{:url("Admin/article/edit")}?uid=' + uid
-                    ,area: ['420px', '480px']
+                    ,title: '修改文章'
+                    ,content: '{:url("Admin/article/edit")}?aid=' + aid
+                    ,area: ['720px', '750px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
@@ -118,22 +118,51 @@
                         //监听提交
                         iframeWindow.layui.form.on('submit('+ submitID +')', function(data){
                             var field = data.field; //获取提交的字段
-                            var articlename,email,phone,sex;
-                            var is_admin = field.is_admin ? '是' : '否';
-                            var is_lock = field.is_lock ? '锁定' : '正常';
-                            articlename    = field.articlename;
-                            email       = field.email;
-                            phone       = field.phone;
-                            sex         = field.sex;
+                            var title,thumb,digest,category,content,attr,tag,status;
+
+                            //所有属性
+                            var attrs = new Array();
+                            var num = 0;
+                            for (var i=0; i<4; i++) {
+                                var old_attr = "field.attrs"+i;
+                                var new_attr = eval(old_attr);
+                                if(typeof new_attr !== 'undefined'){
+                                    attrs[num] = new_attr;
+                                    num = num+1;
+                                }
+                            }
+                            //所有标签
+                            var tagCount={$tagCount};
+                            var tags = new Array();
+                            var num = 0;
+                            for (var i=0; i<=tagCount; i++) {
+                                var old_tag = "field.tags"+i;
+                                var new_tag = eval(old_tag);
+                                if(typeof new_tag !== 'undefined'){
+                                    tags[num] = new_tag;
+                                    num = num+1;
+                                }
+                            }
+                            title       = field.title;
+                            digest      = field.digest;
+                            category    = field.category;
+                            thumb       = field.thumb;
+                            status      = field.status ? '已发布' : '未发布';
+                            attr        = attrs.join(",");
+                            tag         = tags.join(",");
+                            content     = field.content;
+                            console.log(field);
                             $.ajax({
-                                url:'{:url("Admin/article/do_edit")}?uid=' + uid,
+                                url:'{:url("Admin/article/do_edit")}?aid=' + aid,
                                 data:{
-                                    'articlename':articlename
-                                    ,'email':email
-                                    ,'phone':phone
-                                    ,'is_admin':is_admin
-                                    ,'is_lock':is_lock
-                                    ,'sex':sex
+                                    'title':title
+                                    ,'digest':digest
+                                    ,'category':category
+                                    ,'thumb':thumb
+                                    ,'status':status
+                                    ,'attr':attr
+                                    ,'tag':tag
+                                    ,'content':content
                                 },
                                 type: "post" ,
                                 dataType:'json',
@@ -163,31 +192,6 @@
             });
         });
 
-        //修改用户状态
-        form.on('switch(is_lock)', function(obj){
-            var uid = parseInt(this.value);
-            var status=obj.elem.checked;
-            status = status == true ? '正常' : '锁定';
-            $.ajax({
-                url:'{:url("Admin/article/update_lock")}',
-                data:{
-                    'uid':uid
-                    ,'status':status
-                },
-                type: "post",
-                dataType:'json',
-                success:function(re){
-                    if(re.status){
-                        // table.reload('articles');
-                        layer.msg(re.msg,{icon:1,time:2000});
-                    }else{
-                        table.reload('articles');
-                        layer.msg(re.msg,{icon:5,time:2000});
-                    }
-                }
-            });
-        });
-
         //多选删除与添加用户
         var active = {
             batchdel: function(){
@@ -195,6 +199,10 @@
                     ,checkData = checkStatus.data; //得到选中的数据
                 if(checkData.length === 0){
                     return layer.msg('请先选择数据！',{icon:3,time:2000});
+                }
+                var aids = "";
+                for (i in checkData){
+                    aids += checkData[i]['aid'] + ",";
                 }
                 layer.prompt({
                     formType: 1
@@ -204,7 +212,7 @@
                     layer.confirm('确定删除吗？', function(index) {
                         $.ajax({
                             url:'{:url("Admin/article/do_delAll")}',
-                            data:{'checkData':checkData},
+                            data:{'aids':aids},
                             type: "post" ,
                             dataType:'json',
                             success:function(re){
@@ -224,7 +232,7 @@
                     type: 2
                     ,title: '添加文章'
                     ,content: '{:url("Admin/article/add")}'
-                    ,area: ['720px', '650px']
+                    ,area: ['720px', '750px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
                         var iframeWindow = window['layui-layer-iframe'+ index]
@@ -239,7 +247,7 @@
                             //所有属性
                             var attrs = new Array();
                             var num = 0;
-                            for (var i=0; i<3; i++) {
+                            for (var i=0; i<4; i++) {
                                 var old_attr = "field.attrs"+i;
                                 var new_attr = eval(old_attr);
                                 if(typeof new_attr !== 'undefined'){
