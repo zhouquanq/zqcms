@@ -1,0 +1,70 @@
+<!-- 侧边菜单 -->
+<div class="layui-side layui-side-menu">
+    <div class="layui-side-scroll">
+        <div class="layui-logo" lay-href="{:url('Admin/index/console')}">
+            <span>Admin</span>
+        </div>
+
+        <ul class="layui-nav layui-nav-tree" lay-shrink="all" id="LAY-system-side-menu"
+            lay-filter="layadmin-system-side-menu">
+            <li data-name="home" class="layui-nav-item layui-nav-itemed">
+                <a href="javascript:;" lay-tips="主页" lay-direction="2">
+                    <i class="layui-icon layui-icon-home"></i>
+                    <cite>主页</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="console" class="layui-this">
+                        <a lay-href="{:url('Admin/index/console')}">控制台</a>
+                    </dd>
+                </dl>
+            </li>
+            <li data-name="user" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="用户" lay-direction="2">
+                    <i class="layui-icon layui-icon-user"></i>
+                    <cite>用户</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <!--<dd>-->
+                    <!--<a lay-href="user/user/list.html">网站用户</a>-->
+                    <!--</dd>-->
+                    <dd>
+                        <a lay-href="{:url('Admin/User/index')}">用户管理</a>
+                    </dd>
+                </dl>
+            </li>
+            <li data-name="app" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="分类" lay-direction="2">
+                    <i class="layui-icon layui-icon-app"></i>
+                    <cite>分类</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="content">
+                        <a lay-href="{:url('Admin/Category/index')}">分类管理</a>
+                    </dd>
+                </dl>
+            </li>
+            <li data-name="app" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="标签" lay-direction="2">
+                    <i class="layui-icon layui-icon-app"></i>
+                    <cite>标签</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="content">
+                        <a lay-href="{:url('Admin/Tag/index')}">标签管理</a>
+                    </dd>
+                </dl>
+            </li>
+            <li data-name="app" class="layui-nav-item">
+                <a href="javascript:;" lay-tips="文章" lay-direction="2">
+                    <i class="layui-icon layui-icon-app"></i>
+                    <cite>文章</cite>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd data-name="content">
+                        <a lay-href="{:url('Admin/Article/index')}">文章管理</a>
+                    </dd>
+                </dl>
+            </li>
+        </ul>
+    </div>
+</div>

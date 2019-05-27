@@ -1,0 +1,40 @@
+{include file="common/header" /}
+
+<body class="layui-layout-body">
+<div id="LAY_app">
+    <div class="layui-layout layui-layout-admin">
+        <!--顶部区域-->
+        {include file="common/top" /}
+        <!--左侧导航-->
+        {include file="common/nav" /}
+        <!--标签管理-->
+        {include file="common/label" /}
+
+        <!-- 主体内容 -->
+        <div class="layui-body" id="LAY_app_body">
+            <td><input type="checkbox" name="" lay-skin="primary"></td>
+            <div class="layadmin-tabsbody-item layui-show">
+                <iframe src="{:url('Admin/index/console')}" frameborder="0" class="layadmin-iframe"></iframe>
+            </div>
+        </div>
+
+        <!-- 辅助元素，一般用于移动设备下遮罩 -->
+        <div class="layadmin-body-shade" layadmin-event="shade"></div>
+    </div>
+</div>
+
+<!--基础script区域-->
+{include file="common/script" /}
+
+<script>
+    layui.config({
+        base: '__STATIC__/admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index']);
+</script>
+
+</body>
+</html>
+
+
