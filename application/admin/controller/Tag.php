@@ -60,6 +60,8 @@ class Tag extends Auth{
             $tid = input('tid');
             $re = Db::name('tag')->delete($tid);
             if($re){
+                $map['tag_tid'] = array('eq',$tid);
+                Db::name('article_tag')->where($map)->delete();
                 return json(["status"=>1,"msg"=>"标签删除成功！"]);
             }else{
                 return json(["status"=>0,"msg"=>"标签删除失败！"]);
@@ -72,6 +74,8 @@ class Tag extends Auth{
             $tids = input('tids');
             $re =  Db::name('tag')->delete($tids);
             if($re){
+                $map['tag_tid'] = array('in',$tids);
+                Db::name('article_tag')->where($map)->delete();
                 return json(["status"=>1,"msg"=>"删除成功！"]);
             }else{
                 return json(["status"=>0,"msg"=>"删除失败！"]);

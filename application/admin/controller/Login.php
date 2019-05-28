@@ -31,7 +31,7 @@ class Login extends Controller{
                 Db::name('users')->where('uid',$userInfo['uid'])->update($loginInfo);
                 return json(["status"=>1,"msg"=>"登录成功！"]);
             } else {
-                return json(["status"=>1,"msg"=>"账号或密码错误！"]);
+                return json(["status"=>0,"msg"=>"账号或密码错误！"]);
             }
         }
     }
