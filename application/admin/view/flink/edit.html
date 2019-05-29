@@ -1,0 +1,28 @@
+{include file="common/header" /}
+<body>
+
+<div class="layui-form" lay-filter="layuiadmin-form-tags" id="layuiadmin-app-form-tags"
+     style="padding-top: 30px;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">标签名</label>
+        <div class="layui-input-inline">
+            <input type="text" name="tagname" lay-verify="required" value="{$oldTag.tagname}" placeholder="请输入标签名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+</div>
+
+<!--基础script区域-->
+{include file="common/script" /}
+<script>
+    layui.config({
+        base: '__STATIC__/admin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'form'], function () {
+        var $ = layui.$
+            , form = layui.form;
+    })
+</script>
+</body>
+</html>

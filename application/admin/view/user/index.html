@@ -70,15 +70,15 @@
             ,page:1
             ,cols: [[
                 {type:'checkbox'}
-                ,{field:'uid', title: '用户ID', sort: true}
+                ,{field:'uid', title: 'ID', sort: true, width: 60, align: 'center'}
                 ,{field:'username',  title: '用户名'}
                 ,{field:'nickname',  title: '昵称'}
-                ,{field:'sex',  title: '性别', sort: true}
+                ,{field:'sex',  title: '性别', sort: true, width: 80, align: 'center'}
                 ,{field:'phone',  title: '电话'}
                 ,{field:'email',  title: '邮箱'}
-                ,{field:'is_admin',width:100,title:'身份',templet: '#user_is_admin', unresize: true}
-                ,{field:'is_lock',width:100,title:'状态',templet: '#user_status', unresize: true, sort: true}
-                ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar'}
+                ,{field:'is_admin',width:100,title:'身份',templet: '#user_is_admin', unresize: true, align: 'center'}
+                ,{field:'is_lock',width:100,title:'状态',templet: '#user_status', unresize: true, sort: true, align: 'center'}
+                ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar', unresize: true}
             ]]
         });
 

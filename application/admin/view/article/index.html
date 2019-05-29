@@ -5,9 +5,9 @@
         <div class="layui-form layui-card-header layuiadmin-card-header-auto">
             <div class="layui-form-item">
                 <div class="layui-inline">
-                    <label class="layui-form-label">用户名</label>
+                    <label class="layui-form-label">文章标题</label>
                     <div class="layui-input-block">
-                        <input type="text" name="articlename" placeholder="请输入" autocomplete="off" class="layui-input">
+                        <input type="text" name="title" placeholder="请输入" autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-inline">
@@ -31,13 +31,13 @@
                 <!--<button class="layui-btn layui-btn-warm layui-btn-xs layui-btn-radius">用户</button>-->
                 <!--{{#  } }}-->
             <!--</script>-->
-            <!--<script type="text/html" id="article_status">-->
-                <!--{{#  if(d.is_admin == '是'){ }}-->
-                <!--<input type="checkbox" name="is_lock" value="{{d.uid}}" lay-skin="switch" lay-text="正常|锁定" disabled lay-filter="is_lock" {{ d.is_lock == '正常' ? 'checked' : '' }} >-->
-                <!--{{#  } else { }}-->
-                <!--<input type="checkbox" name="is_lock" value="{{d.uid}}" lay-skin="switch" lay-text="正常|锁定" lay-filter="is_lock" {{ d.is_lock == '正常' ? 'checked' : '' }} >-->
-                <!--{{#  } }}-->
-            <!--</script>-->
+            <script type="text/html" id="article_status">
+                {{#  if(d.status == '已发布'){ }}
+                <button class="layui-btn layui-btn-xs layui-btn-radius">已发布</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs layui-btn-radius">未发布</button>
+                {{#  } }}
+            </script>
             <script type="text/html" id="action_bar">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon layui-icon-edit"></i>编辑</a>
                 {{#  if(d.is_admin == '是'){ }}
@@ -70,15 +70,15 @@
             ,page:1
             ,cols: [[
                 {type:'checkbox'}
-                ,{field:'aid', title: '文章ID', sort: true, width: 100}
+                ,{field:'aid', title: 'ID', sort: true, width: 60, align: 'center'}
                 ,{field:'title',  title: '标题'}
                 ,{field:'digest',  title: '摘要'}
-                ,{field:'attr',  title: '属性', width: 120}
-                ,{field:'click',  title: '点击数', sort: true, width: 80}
+                ,{field:'attr',  title: '属性', width: 160, align: 'center', unresize: true}
+                ,{field:'click',  title: '点击数', sort: true, width: 80, align: 'center'}
                 ,{field:'author',  title: '作者', width: 100}
                 // ,{field:'is_admin',width:100,title:'身份',templet: '#article_is_admin', unresize: true}
-                // ,{field:'is_lock',width:100,title:'状态',templet: '#article_status', unresize: true, sort: true}
-                ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar'}
+                ,{field:'status',width:80,title:'状态',templet: '#article_status', sort: true, unresize: true, align: 'center'}
+                ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar', unresize: true, align: 'center'}
             ]]
         });
 
@@ -186,6 +186,7 @@
         //监听搜索
         form.on('submit(article-search)', function(data){
             var field = data.field;
+            console.log(field);
             //执行重载
             table.reload('articles', {
                 where: field

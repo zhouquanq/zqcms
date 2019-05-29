@@ -23,8 +23,15 @@
             <div style="padding-bottom: 10px;">
                 <button class="layui-btn layuiadmin-btn-comm" data-type="batchdel">删除</button>
             </div>
-            <table id="tags" lay-filter="tags"></table>
-            <script type="text/html" id="action_bar">
+            <table id="flinks" lay-filter="flinks"></table>
+            <script type="text/html" id="flink_status">
+                {{#  if(d.status == '显示'){ }}
+                <button class="layui-btn layui-btn-xs layui-btn-radius">显示</button>
+                {{#  } else { }}
+                <button class="layui-btn layui-btn-warm layui-btn-xs layui-btn-radius">隐藏</button>
+                {{#  } }}
+            </script>
+            <script type="text/html" id="flink_bar">
                 <a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i
                         class="layui-icon layui-icon-edit"></i>编辑</a>
                 <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i
@@ -49,15 +56,21 @@
 
         //加载表格
         table.render({
-            elem: '#tags'
-            ,url:"{:url('Admin/Tag/getTags')}"
+            elem: '#flinks'
+            ,url:"{:url('Admin/Flink/getflinks')}"
             ,align:'center'
             ,page:1
             ,cols: [[
                 {type:'checkbox'}
-                ,{field:'tid', title: 'ID', sort: true, align: 'center', width: 80}
-                ,{field:'tagname',  title: '标签名'}
-                ,{field:'operate',width:150,title:'操作', align: 'center', toolbar: '#action_bar'}
+                ,{field:'fid', title: 'ID', sort: true, align: 'center', width: 60}
+                ,{field:'fname',  title: '友链名'}
+                ,{field:'msg',  title: '友链信息'}
+                ,{field:'addtime',  title: '添加时间'}
+                ,{field:'sort',  title: '排序'}
+                ,{field:'logo',  title: '图片'}
+                ,{field:'url',  title: '地址'}
+                ,{field:'is_show',width:80,title:'状态',templet: '#flink_status', sort: true, unresize: true, align: 'center'}
+                ,{field:'operate',width:150,title:'操作', toolbar: '#flink_bar', unresize: true, align: 'center'}
             ]]
         });
 
@@ -73,7 +86,7 @@
                 success:function(re){
                     if(re.status){
                         layer.msg(re.msg,{icon:1,time:2000});
-                        table.reload('tags');
+                        table.reload('flinks');
                         layer.close(index); //关闭弹层
                     }else{
                         layer.msg(re.msg,{icon:5,time:2000});
@@ -89,7 +102,7 @@
         //点击事件
         var active = {
             batchdel: function () {
-                var checkStatus = table.checkStatus('tags')
+                var checkStatus = table.checkStatus('flinks')
                     , checkData = checkStatus.data; //得到选中的数据
 
                 if (checkData.length === 0) {
@@ -107,7 +120,7 @@
                         dataType:'json',
                         success:function(re){
                             if(re.status){
-                                table.reload('tags');
+                                table.reload('flinks');
                                 layer.msg(re.msg,{icon:1,time:2000});
                             }else{
                                 layer.msg(re.msg,{icon:5,time:2000});
@@ -119,7 +132,7 @@
         };
 
         //工具栏监听事件
-        table.on('tool(tags)', function(obj){
+        table.on('tool(flinks)', function(obj){
             var tid = obj.data.tid;
             //删除
             if(obj.event === 'del'){
@@ -131,7 +144,7 @@
                         dataType:'json',
                         success:function(re){
                             if(re.status){
-                                table.reload('tags');
+                                table.reload('flinks');
                                 layer.msg(re.msg,{icon:1,time:2000});
                             }else{
                                 layer.msg(re.msg,{icon:5,time:2000});
@@ -148,7 +161,7 @@
                     ,area: ['460px', '220px']
                     ,btn: ['确定', '取消']
                     ,yes: function(index, layero){
-                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-tags")
+                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-flinks")
                             , tagname = othis.find('input[name="tagname"]').val();
                         //监听提交
                         $.ajax({
@@ -159,7 +172,7 @@
                             success:function(re){
                                 if(re.status){
                                     layer.msg(re.msg,{icon:1,time:2000});
-                                    table.reload('tags');
+                                    table.reload('flinks');
                                     layer.close(index); //关闭弹层
                                 }else{
                                     layer.msg(re.msg,{icon:5,time:2000});

@@ -51,10 +51,13 @@ class Article extends Auth{
             $limit = input("get.limit") ? input("get.limit") : 1;
             $limit = intval($limit);
             $start = $limit*($page-1);
-
+            $title = input("get.title") ? trim(input("get.title"),' ') : '';
+            if($title) {
+                $map['title'] = array('like','%'.$title.'%');
+            }
             //分页查询
             $count = Db::name("article")->where($map)->count();
-            $article_list = Db::name("article")->alias('a')->Join('article_data ad','a.aid = ad.article_aid')->order("aid asc")->limit($start,$limit)->select();
+            $article_list = Db::name("article")->alias('a')->Join('article_data ad','a.aid = ad.article_aid')->where($map)->order("aid asc")->limit($start,$limit)->select();
             $list["msg"] = "";
             $list["code"] = 0;
             $list["count"] = $count;
@@ -69,7 +72,6 @@ class Article extends Auth{
     public function do_add(){
         if(Request::instance()->isPost()){
             $data = input('post.');
-//            return $data;
             //调用验证器自动验证
             $validate = new \app\admin\validate\Article();
             $validateData = ['title' => $data['title'], 'digest' => $data['digest'], 'category' => $data['category'], 'content' => $data['content']];
@@ -79,7 +81,7 @@ class Article extends Auth{
 
             $article = array(
                 'title'             => $data['title'],
-                'sendtime'          => time(),
+                'addtime'           => time(),
                 'thumb'             => $data['thumb'],
                 'digest'            => $data['digest'],
                 'status'            => $data['status'],
@@ -140,32 +142,30 @@ class Article extends Auth{
                 'category_cid'      => $data['category'],
             );
 
-            $re1 =  Db::name('article')->where('aid',$aid)->update($article);
+            Db::name('article')->where('aid',$aid)->update($article);
 
-            if($re1){
-                $article_data = array(
-                    'keywords'      => '',
-                    'description'   => $data['digest'],
-                    'content'       => $data['content'],
-                    'article_aid'   => $aid,
-                );
-                $re2 =  Db::name('article_data')->where('article_aid',$aid)->update($article_data);
-//
-//                $tags = explode(",",$data['tag']);
-//                foreach ($tags as $k => $v) {
-//                    $article_tag = array(
-//                        'article_aid'   => $aid,
-//                        'tag_tid'       => $v,
-//                        'category_cid'  => $data['category'],
-//                    );
-//                    Db::name('article_tag')->insert($article_tag);
-//                }
+            $article_data = array(
+                'keywords'      => '',
+                'description'   => $data['digest'],
+                'content'       => $data['content'],
+                'article_aid'   => $aid,
+            );
+            Db::name('article_data')->where('article_aid',$aid)->update($article_data);
+
+            $map['article_aid'] = array('eq',$aid);
+            $delTag = Db::name('article_tag')->where($map)->delete();
+            if($delTag){
+                $tags = explode(",",$data['tag']);
+                foreach ($tags as $k => $v) {
+                    $article_tag = array(
+                        'article_aid'   => $aid,
+                        'tag_tid'       => $v,
+                        'category_cid'  => $data['category'],
+                    );
+                    Db::name('article_tag')->insert($article_tag);
+                }
             }
-            if($re1 && $re2){
-                return json(["status"=>1,"msg"=>"文章修改成功！"]);
-            }else{
-                return json(["status"=>0,"msg"=>"文章修改失败！"]);
-            }
+            return json(["status"=>1,"msg"=>"文章修改成功！"]);
         }
     }
 

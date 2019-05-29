@@ -29,10 +29,9 @@ class User extends Auth
             $limit = input("get.limit") ? input("get.limit") : 1;
             $limit = intval($limit);
             $start = $limit*($page-1);
-            $username = input("get.username") ? input("get.username") : '';
+            $username = input("get.username") ? trim(input("get.username"),' ') : '';
             if($username) {
                 $map['username'] = array('like','%'.$username.'%');
-//                $map = "username like '%".$username."%'";
             }
             //分页查询
             $count = Db::name("users")->where($map)->count();
