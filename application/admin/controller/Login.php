@@ -6,10 +6,15 @@ use \think\Request;
 use \think\Db;
 use \think\Session;
 
+/**
+ * Class Login 登录控制器
+ */
 class Login extends Controller{
+    // 登录页面
     public function index(){
         return $this->fetch();
     }
+    // 登录操作
     public function login(){
         if (Request::instance()->isPost()) {
             $username = input('post.username');
@@ -35,7 +40,7 @@ class Login extends Controller{
             }
         }
     }
-
+    // 登出操作
     public function loginOut(){
         Session::delete('admin_id');
         Session::delete('admin_name');

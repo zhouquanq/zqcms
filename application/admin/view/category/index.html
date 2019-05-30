@@ -3,7 +3,7 @@
 <div class="layui-fluid">
     <div class="layui-card">
         <div class="layui-card-header layuiadmin-card-header-auto">
-            <button class="layui-btn layuiadmin-btn-tags" data-type="add">添加</button>
+            <button class="layui-btn layuiadmin-btn-cate" data-type="add">添加</button>
         </div>
         <div class="layui-card-body">
             <table id="category" lay-filter="category"></table>
@@ -69,7 +69,7 @@
                     , area: ['480px', '380px']
                     , btn: ['确定', '取消']
                     , yes: function (index, layero) {
-                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-tags")
+                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-cate")
                             , pid = othis.find('select[name="pid"]').val()
                             , cname = othis.find('input[name="cname"]').val()
                             , csort = othis.find('input[name="csort"]').val();
@@ -157,7 +157,7 @@
         });
 
 
-        $('.layui-btn.layuiadmin-btn-tags').on('click', function () {
+        $('.layui-btn.layuiadmin-btn-cate').on('click', function () {
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });

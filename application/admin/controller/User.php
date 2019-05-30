@@ -3,16 +3,20 @@ namespace app\admin\controller;
 use \think\Db;
 use \think\Request;
 
+/**
+ * Class User 用户控制器
+ */
 class User extends Auth
 {
+    // 用户列表
     public function index(){
         return $this->fetch();
     }
-
+    // 添加用户页面
     public function add(){
         return $this->fetch();
     }
-
+    // 修改用户页面
     public function edit(){
         //修改查询就数据
         $map['uid'] = input("get.uid");
@@ -20,7 +24,7 @@ class User extends Auth
         $this->assign('userInfo',$userInfo);
         return $this->fetch('edit');
     }
-
+    // 获取用户列表
     public function getUsers($map=''){
         if(Request::instance()->isGet()){
             //获取分页page和limit参数
@@ -40,13 +44,10 @@ class User extends Auth
             $list["code"] = 0;
             $list["count"] = $count;
             $list["data"] = $user_list;
-            if(empty($user_list)){
-                $list["msg"]="暂无数据";
-            }
             return json($list);
         }
     }
-
+    // 添加用户操作
     public function do_add(){
         if(Request::instance()->isPost()){
             $data = input('post.');
@@ -72,7 +73,7 @@ class User extends Auth
             }
         }
     }
-
+    // 删除用户操作
     public function do_del(){
         if(Request::instance()->isPost()){
             $uid = input('uid');
@@ -84,7 +85,7 @@ class User extends Auth
             }
         }
     }
-
+    // 删除选中用户操作
     public function do_delAll(){
         if(Request::instance()->isPost()){
             $uids = input('uids');
@@ -96,7 +97,7 @@ class User extends Auth
             }
         }
     }
-
+    // 修改用户操作
     public function do_edit(){
         if(Request::instance()->isPost()){
             $data = input('post.');
@@ -117,7 +118,6 @@ class User extends Auth
             }
         }
     }
-
     //修改用户的状态
     public function update_lock(){
         if(Request::instance()->isPost()){
@@ -131,5 +131,4 @@ class User extends Auth
             }
         }
     }
-
 }

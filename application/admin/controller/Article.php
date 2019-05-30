@@ -3,13 +3,18 @@ namespace app\admin\controller;
 use \think\Db;
 use \think\Request;
 
+/**
+ * Class Article 文章控制器
+ * @package app\admin\controller
+ */
 class Article extends Auth{
+    // 文章列表
     public function index(){
         $tag_list = Db::name("tag")->select();
         $this->assign('tagCount',count($tag_list));
         return $this->fetch();
     }
-
+    // 文章添加页面
     public function add(){
         $category_list = Db::name("category")->select();
         $tag_list = Db::name("tag")->select();
@@ -18,11 +23,10 @@ class Article extends Auth{
         $this->assign('tag_list',$tag_list);
         return $this->fetch();
     }
-
+    // 文章修改页面
     public function edit(){
         $map['aid'] = input("get.aid");
         $oldArticle = Db::name("article")->alias('a')->Join('article_data ad','a.aid = ad.article_aid')->where($map)->find();
-
         $tagMap['article_aid'] = input("get.aid");
         $articleTag = Db::name("article_tag")->field("tag_tid")->where($tagMap)->select();
         foreach ($articleTag as $k => $v) {
@@ -42,7 +46,7 @@ class Article extends Auth{
         $this->assign('articleAttr',$articleAttr);
         return $this->fetch();
     }
-
+    // 获取文章列表
     public function getArticle($map=''){
         if(Request::instance()->isGet()){
             //获取分页page和limit参数
@@ -62,13 +66,10 @@ class Article extends Auth{
             $list["code"] = 0;
             $list["count"] = $count;
             $list["data"] = $article_list;
-            if(empty($article_list)){
-                $list["msg"]="暂无数据";
-            }
             return json($list);
         }
     }
-
+    // 添加文章操作
     public function do_add(){
         if(Request::instance()->isPost()){
             $data = input('post.');
@@ -90,7 +91,6 @@ class Article extends Auth{
                 'category_cid'      => $data['category'],
                 'user_uid'          => session('admin_id'),
             );
-
             $re1 =  Db::name('article')->insert($article);
             $articleID = Db::name('article')->getLastInsID();
 
@@ -120,19 +120,48 @@ class Article extends Auth{
             }
         }
     }
-
+    // 删除文章
+    public function do_del(){
+        if(Request::instance()->isPost()){
+            $aid = input('aid');
+            $re = Db::name('article')->delete($aid);
+            if($re){
+                $map['article_aid'] = array('eq',$aid);
+                Db::name('article_data')->where($map)->delete();
+                Db::name('article_tag')->where($map)->delete();
+                return json(["status"=>1,"msg"=>"删除成功！"]);
+            }else{
+                return json(["status"=>0,"msg"=>"删除失败！"]);
+            }
+        }
+    }
+    // 删除选中文章
+    public function do_delAll(){
+        if(Request::instance()->isPost()){
+            $aids = input('aids');
+            $aid = explode(',',trim($aids,','));
+            foreach ($aid as $v){
+                $re = Db::name('article')->delete($v);
+                if($re){
+                    $map['article_aid'] = array('eq',$v);
+                    Db::name('article_data')->where($map)->delete();
+                    Db::name('article_tag')->where($map)->delete();
+                }
+            }
+            return json(["status"=>1,"msg"=>"删除成功！"]);
+        }
+    }
+    //修改文章操作
     public function do_edit(){
         if(Request::instance()->isPost()){
             $data = input('post.');
             $aid = input('get.aid');
-//            return $data;
             //调用验证器自动验证
             $validate = new \app\admin\validate\Article();
             $validateData = ['title' => $data['title'], 'digest' => $data['digest'], 'category' => $data['category'], 'content' => $data['content']];
             if (!$validate->check($validateData)) {
                 return json(["status"=>0,"msg"=>$validate->getError()]);
             }
-
             $article = array(
                 'title'             => $data['title'],
                 'thumb'             => $data['thumb'],
@@ -168,39 +197,7 @@ class Article extends Auth{
             return json(["status"=>1,"msg"=>"文章修改成功！"]);
         }
     }
-
-    public function do_del(){
-        if(Request::instance()->isPost()){
-            $aid = input('aid');
-            $re = Db::name('article')->delete($aid);
-            if($re){
-                $map['article_aid'] = array('eq',$aid);
-                Db::name('article_data')->where($map)->delete();
-                Db::name('article_tag')->where($map)->delete();
-                return json(["status"=>1,"msg"=>"删除成功！"]);
-            }else{
-                return json(["status"=>0,"msg"=>"删除失败！"]);
-            }
-        }
-    }
-
-    public function do_delAll(){
-        if(Request::instance()->isPost()){
-            $aids = input('aids');
-            $aid = explode(',',trim($aids,','));
-            foreach ($aid as $v){
-                $re = Db::name('article')->delete($v);
-                if($re){
-                    $map['article_aid'] = array('eq',$v);
-                    Db::name('article_data')->where($map)->delete();
-                    Db::name('article_tag')->where($map)->delete();
-                }
-            }
-            return json(["status"=>1,"msg"=>"删除成功！"]);
-        }
-    }
-
-
+    // 上传文章图片
     public function upload(){
         $file = request()->file('file');
         // 移动到框架应用根目录/public/uploads/ 目录下
@@ -212,6 +209,5 @@ class Article extends Auth{
             return json(["status"=>0,"msg"=>$file->getError()]);
         }
     }
-
 
 }

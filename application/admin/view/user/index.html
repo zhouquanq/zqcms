@@ -73,10 +73,11 @@
                 ,{field:'uid', title: 'ID', sort: true, width: 60, align: 'center'}
                 ,{field:'username',  title: '用户名'}
                 ,{field:'nickname',  title: '昵称'}
-                ,{field:'sex',  title: '性别', sort: true, width: 80, align: 'center'}
+                ,{field:'sex',  title: '性别', sort: true, width: 70, align: 'center'}
                 ,{field:'phone',  title: '电话'}
                 ,{field:'email',  title: '邮箱'}
-                ,{field:'is_admin',width:100,title:'身份',templet: '#user_is_admin', unresize: true, align: 'center'}
+                ,{field:'is_admin',width:80,title:'身份',templet: '#user_is_admin', unresize: true, align: 'center'}
+                ,{field:'reg_date',  title: '注册时间', width: 160, templet: "<div>{{layui.util.toDateString(d.reg_date*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>", unresize: true, align: 'center'}
                 ,{field:'is_lock',width:100,title:'状态',templet: '#user_status', unresize: true, sort: true, align: 'center'}
                 ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar', unresize: true}
             ]]

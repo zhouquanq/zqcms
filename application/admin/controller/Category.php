@@ -4,19 +4,24 @@ namespace app\admin\controller;
 use \think\Db;
 use \think\Request;
 
+/**
+ * Class Category 分类控制器
+ */
 class Category extends Auth
 {
+    // 分类列表页
     public function index(){
         return $this->fetch();
     }
-
+    // 添加分类页面
     public function add(){
         $category_list = Db::name("category")->select();
+        // 调用unlimitedForLevel函数 树状显示分类
         $cateTree = unlimitedForLevel($category_list);
         $this->assign('cateTree',$cateTree);
         return $this->fetch();
     }
-
+    // 修改分类页面
     public function edit(){
         //查询所有分类并调整树状显示
         $category_list = Db::name("category")->select();
@@ -28,7 +33,7 @@ class Category extends Auth
         $this->assign('cateTree',$cateTree);
         return $this->fetch();
     }
-
+    // 获取分类
     public function getCategory(){
         if(Request::instance()->isGet()){
             //分页查询
@@ -44,7 +49,7 @@ class Category extends Auth
             return json($list);
         }
     }
-
+    // 添加分类操作
     public function do_add(){
         if(Request::instance()->isPost()){
             $data = input('post.');
@@ -67,7 +72,7 @@ class Category extends Auth
             }
         }
     }
-
+    // 删除分类操作
     public function do_del(){
         if(Request::instance()->isPost()){
             $cid = input('cid');
@@ -83,7 +88,7 @@ class Category extends Auth
             }
         }
     }
-
+    // 修改分类操作
     public function do_edit(){
         if(Request::instance()->isPost()){
             $data = input('post.');

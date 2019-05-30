@@ -76,7 +76,7 @@
                 ,{field:'attr',  title: '属性', width: 160, align: 'center', unresize: true}
                 ,{field:'click',  title: '点击数', sort: true, width: 80, align: 'center'}
                 ,{field:'author',  title: '作者', width: 100}
-                // ,{field:'is_admin',width:100,title:'身份',templet: '#article_is_admin', unresize: true}
+                ,{field:'addtime',  title: '添加时间', width: 160, templet: "<div>{{layui.util.toDateString(d.addtime*1000, 'yyyy-MM-dd HH:mm:ss')}}</div>", unresize: true, align: 'center'}
                 ,{field:'status',width:80,title:'状态',templet: '#article_status', sort: true, unresize: true, align: 'center'}
                 ,{field:'operate',width:150,title:'操作',toolbar:'#action_bar', unresize: true, align: 'center'}
             ]]
@@ -313,6 +313,40 @@
             var type = $(this).data('type');
             active[type] ? active[type].call(this) : '';
         });
+
+        layui.laytpl.toDateString = function(d, format){
+            var date = new Date(d || new Date())
+                ,ymd = [
+                this.digit(date.getFullYear(), 4)
+                ,this.digit(date.getMonth() + 1)
+                ,this.digit(date.getDate())
+            ]
+                ,hms = [
+                this.digit(date.getHours())
+                ,this.digit(date.getMinutes())
+                ,this.digit(date.getSeconds())
+            ];
+
+            format = format || 'yyyy-MM-dd HH:mm:ss';
+
+            return format.replace(/yyyy/g, ymd[0])
+                .replace(/MM/g, ymd[1])
+                .replace(/dd/g, ymd[2])
+                .replace(/HH/g, hms[0])
+                .replace(/mm/g, hms[1])
+                .replace(/ss/g, hms[2]);
+        };
+
+        //数字前置补零
+        layui.laytpl.digit = function(num, length, end){
+            var str = '';
+            num = String(num);
+            length = length || 2;
+            for(var i = num.length; i < length; i++){
+                str += '0';
+            }
+            return num < Math.pow(10, length) ? str + (num|0) : num;
+        };
     });
 
 </script>

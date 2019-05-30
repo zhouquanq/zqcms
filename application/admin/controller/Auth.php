@@ -6,12 +6,12 @@ use \think\Session;
 use \think\Db;
 
 /**
- * Class Auth
- * 登录验证控制器
+ * Class Auth 登录验证控制器
  */
 class Auth extends Controller
 {
     public function _initialize(){
+        // 判断用户是否登录
         if(!Session::has('admin_id') || !Session::has('admin_name') || !Session::has('session_validate')){
             $this->error('非法登录，信不信打死你！','admin/login/index');
         }
