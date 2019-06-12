@@ -1,13 +1,56 @@
 {include file="common/header" /}
 <body>
 
-<div class="layui-form" lay-filter="layuiadmin-form-tags" id="layuiadmin-app-form-tags"
+<div class="layui-form" lay-filter="layuiadmin-form-tags" id="layuiadmin-app-form-flink"
      style="padding-top: 30px;">
     <div class="layui-form-item">
-        <label class="layui-form-label">标签名</label>
+        <label class="layui-form-label">友链名</label>
         <div class="layui-input-inline">
-            <input type="text" name="tagname" lay-verify="required" value="{$oldTag.tagname}" placeholder="请输入标签名" autocomplete="off"
+            <input type="text" name="fname" lay-verify="required" value="{$oldflink.fname}" placeholder="请输入标签名" autocomplete="off"
                    class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">友链信息</label>
+        <div class="layui-input-inline">
+            <input type="text" name="msg" lay-verify="required" value="{$oldflink.msg}" placeholder="请输入标签名" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">友链排序</label>
+        <div class="layui-input-inline">
+            <input type="text" name="sort" lay-verify="required" value="{$oldflink.sort}" placeholder="请输入标签名" autocomplete="off"
+                   class="layui-input">
+            <div class="layui-form-mid layui-word-aux">排序值必须是数字且是1 ~ 100</div>
+        </div>
+
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">友链地址</label>
+        <div class="layui-input-inline">
+            <input type="test" name="url" lay-verify="required|url" value="{$oldflink.url}" placeholder="https://www.baidu.com" autocomplete="off"
+                   class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">友链图片</label>
+        <div class="layui-input-inline">
+            <input name="logo" id="flink_img" placeholder="图片地址" value="{$oldflink.logo}"
+                   disabled class="layui-input">
+        </div>
+        <div class="layui-input-inline layui-btn-container layui-upload" style="width: auto;">
+            <button type="button" class="layui-btn layui-btn-primary" id="LAY_ArticleUpload">
+                <i class="layui-icon">&#xe67c;</i>上传图片
+            </button>
+            <button class="layui-btn layui-btn-primary" layadmin-event="avartatPreview">查看图片
+            </button>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">友链状态</label>
+        <div class="layui-input-inline">
+            <input type="checkbox" lay-filter="switch" name="is_show" lay-skin="switch" {if $oldflink.is_show == "显示"}checked{/if} lay-text="显示|隐藏">
         </div>
     </div>
 </div>
@@ -19,9 +62,32 @@
         base: '__STATIC__/admin/' //静态资源所在路径
     }).extend({
         index: 'lib/index' //主入口模块
-    }).use(['index', 'form'], function () {
+    }).use(['index', 'form', 'upload'], function () {
         var $ = layui.$
-            , form = layui.form;
+            , form = layui.form
+            ,upload = layui.upload;
+
+        //执行实例
+        upload.render({
+            elem: '#LAY_ArticleUpload' //绑定元素
+            ,url: "{:url('Admin/Article/upload')}" //上传接口
+            ,done: function(res){
+                //预读本地文件示例，不支持ie8
+                if(res.status = 1){
+                    //上传成功
+                    $('#flink_img').val(res.saveName);
+                    return layer.msg(res.msg);
+                }else{
+                    return layer.msg(res.msg);
+                }
+            }
+            ,error: function(res){
+                //如果上传失败
+                return layer.msg('上传失败');
+            }
+        });
+
+
     })
 </script>
 </body>

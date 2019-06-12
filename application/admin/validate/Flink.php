@@ -18,8 +18,8 @@ class Flink extends Validate
         'msg.require'   => '友链信息不能为空！',
         'msg.max'       => '友链信息不能超过20位！',
         'sort.require'  => '排序不能为空！',
-        'sort.number'   => '排序必须是数字！',
-        'sort.between'  => '排序必须在0 ~ 100之间！',
+        'sort.number'   => '排序值必须是数字！',
+        'sort.between'  => '排序值必须在0 ~ 100！',
         'url.require'   => '友链地址不能为空！',
         'url.url'       => '友链地址格式不正确！',
 

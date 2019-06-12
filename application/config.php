@@ -243,14 +243,8 @@ return [
     'paginate'      => [
         'type'      => 'Layui',
         'var_page'  => 'page',
-        'list_rows' => 10,
+        'list_rows' => 5,
         'newstyle'  => true,
     ],
-    // 视图输出字符串内容替换
-//    'view_replace_str'       => [
-//        '__STATIC__'=> PUBLIC_DIR . '/static',   //后台程序css,img,js所在文件
-//        '__admin__'=> PUBLIC_DIR . '/static/admin',   //后台程序css,img,js所在文件
-//        // '__COMMON__'=> PUBLIC_DIR . '/common',   //前后共有css,img,js所在文件
-//    ],
 
 ];

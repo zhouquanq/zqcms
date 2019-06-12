@@ -1,0 +1,31 @@
+<div class="footer-wrap">
+    <div class="footer w1000">
+        <div class="qrcode">
+            <img src="__STATIC__/index/img/erweima.jpg">
+        </div>
+        <div class="practice-mode">
+            <img src="__STATIC__/index/img/down_img.jpg">
+            <div class="text">
+                <h4 class="title">我的联系方式</h4>
+                <p>微信<span class="WeChat">15012345678</span></p>
+                <p>手机<span class="iphone">15012345678</span></p>
+                <p>邮箱<span class="email">15012345678@qq.com</span></p>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="__STATIC__/index/layui/layui.js"></script>
+<script type="text/javascript">
+    layui.config({
+        base: '__STATIC__/index/js/util/'
+    }).use(['element', 'laypage', 'jquery', 'menu'], function () {
+        element = layui.element, laypage = layui.laypage, $ = layui.$, menu = layui.menu;
+        laypage.render({
+            elem: 'demo'
+            , count: 70 //数据总数，从服务端得到
+        });
+        menu.init();
+    })
+</script>
+</body>
+</html>

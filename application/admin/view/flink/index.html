@@ -2,21 +2,21 @@
 <body>
 <div class="layui-fluid">
     <div class="layui-card">
-        <div class="layui-form layui-card-header layuiadmin-card-header-auto">
-            <div class="layui-form-item">
-                <div class="layui-inline">
-                    <label class="layui-form-label">新标签名</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="tagname" placeholder="请输入新标签名" autocomplete="off" class="layui-input">
-                    </div>
-                </div>
-                <div class="layui-inline">
-                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="article-search">
-                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>
-                    </button>
-                </div>
-            </div>
-        </div>
+<!--        <div class="layui-form layui-card-header layuiadmin-card-header-auto">-->
+<!--            <div class="layui-form-item">-->
+<!--                <div class="layui-inline">-->
+<!--                    <label class="layui-form-label">新标签名</label>-->
+<!--                    <div class="layui-input-inline">-->
+<!--                        <input type="text" name="tagname" placeholder="请输入新标签名" autocomplete="off" class="layui-input">-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="layui-inline">-->
+<!--                    <button class="layui-btn layuiadmin-btn-admin" lay-submit lay-filter="article-search">-->
+<!--                        <i class="layui-icon layui-icon-search layuiadmin-button-btn"></i>-->
+<!--                    </button>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
         <div class="layui-card-body">
             <div style="padding-bottom: 10px;">
                 <button class="layui-btn layuiadmin-btn-flink" data-type="batchdel">删除</button>
@@ -111,7 +111,7 @@
             add: function(){
                 layer.open({
                     type: 2
-                    , title: '添加分类'
+                    , title: '添加友链'
                     , content: "{:url('admin/flink/add')}"
                     , area: ['580px', '540px']
                     , btn: ['确定', '取消']
@@ -160,7 +160,7 @@
             var fid = obj.data.fid;
             //删除
             if(obj.event === 'del'){
-                layer.confirm('确定删除标签么？', function(index){
+                layer.confirm('确定删除友链么？', function(index){
                     $.ajax({
                         url:'{:url("admin/flink/do_del")}',
                         data:{'fid':fid},
@@ -176,21 +176,34 @@
                         }
                     });
                 });
-            }//修改
+            }//修改fid
             else if(obj.event === 'edit'){
                 layer.open({
                     type: 2
-                    ,title: '修改标签信息'
-                    ,content: '{:url("Admin/Tag/edit")}?tid=' + tid
-                    ,area: ['460px', '220px']
+                    ,title: '修改友链信息'
+                    ,content: '{:url("admin/flink/edit")}?fid=' + fid
+                    ,area: ['580px', '540px']
                     ,btn: ['确定', '取消']
-                    ,yes: function(index, layero){
-                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-flinks")
-                            , tagname = othis.find('input[name="tagname"]').val();
-                        //监听提交
+                    , yes: function (index, layero) {
+                        var othis = layero.find('iframe').contents().find("#layuiadmin-app-form-flink")
+                            , fname = othis.find('input[name="fname"]').val()
+                            , msg = othis.find('input[name="msg"]').val()
+                            , sort = othis.find('input[name="sort"]').val()
+                            , logo = othis.find('input[name="logo"]').val()
+                            , url = othis.find('input[name="url"]').val()
+                            , status = othis.find('input[name="is_show"]:checked').val();
+                        var is_show;
+                        status == "on" ? is_show = "显示" : is_show = "隐藏";
                         $.ajax({
-                            url:'{:url("Admin/tag/do_edit")}?tid=' + tid,
-                            data:{'tagname':tagname},
+                            url:'{:url("admin/flink/do_edit")}?fid=' + fid,
+                            data:{
+                                'fname':fname
+                                ,'msg':msg
+                                ,'sort':sort
+                                ,'logo':logo
+                                ,'url':url
+                                ,'is_show':is_show
+                            },
                             type: "post" ,
                             dataType:'json',
                             success:function(re){
@@ -203,7 +216,6 @@
                                 }
                             }
                         });
-                        submit.trigger('click');
                     }
                 });
             }

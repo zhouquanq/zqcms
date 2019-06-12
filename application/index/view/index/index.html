@@ -1,0 +1,69 @@
+{include file="common/header" /}
+<style type="text/css">
+    .pagination { display: inline-block; padding-left: 0; margin: 20px 0; border-radius: 4px; }
+    .pagination li { display: inline; }
+    .pagination li a,.pagination li span { position: relative; float: left; padding: 6px 12px; margin-left: -1px; line-height: 1.428571429; text-decoration: none; background-color: #fff; border: 1px solid #ddd; }
+    .pagination li:first-child a { margin-left: 0; border-bottom-left-radius: 4px; border-top-left-radius: 4px; }
+    .pagination li:last-child a { border-top-right-radius: 4px; border-bottom-right-radius: 4px; }
+    .pagination li a:hover, .pagination li a:focus { background-color: #eee; }
+    .pagination .active span, .pagination .active span:hover, .pagination .active span:focus { z-index: 2; color: #fff; cursor: default; background-color: #428bca; border-color: #428bca; }
+    .pagination .disabled span, .pagination .disabled span:hover, .pagination .disabled span:focus { color: #999; cursor: not-allowed; background-color: #fff; border-color: #ddd; }
+    .pagination-lg li a { padding: 10px 16px; font-size: 18px; }
+    .pagination-sm li a, .pagination-sm li span { padding: 5px 10px; font-size: 12px; }
+</style>
+<body>
+{include file="common/top" /}
+<div class="banner">
+    <div class="cont w1000">
+        <div class="title">
+            <h3>MY<br/>BLOG</h3>
+            <h4>well-balanced heart</h4>
+        </div>
+        <div class="amount">
+            <p><span class="text">访问量</span><span class="access">99</span></p>
+            <p><span class="text">日志</span><span class="daily-record">99</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div class="cont w1000">
+        <div class="title">
+        <span class="layui-breadcrumb" lay-separator="|">
+          <a href="javascript:;" class="active">设计文章</a>
+          <a href="javascript:;">前端文章</a>
+          <a href="javascript:;">旅游杂记</a>
+        </span>
+        </div>
+        <div class="list-item">
+            {volist name="article_list" id="vo" key="k"}
+            <div class="item">
+                <div class="layui-fluid">
+                    <div class="layui-row">
+                        <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
+                            {if condition="$vo.thumb eq '' "}
+                            <div class="img"><img src="__STATIC__/index/img/sy_img<?php echo(rand(1,5)); ?>.jpg" alt=""></div>
+                            {else /}
+                            <div class="img"><img src="{vo.thumb}" alt=""></div>
+                            {/if}
+                        </div>
+                        <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
+                            <div class="item-cont">
+                                <h3>{$vo.title}
+                                    <button class="layui-btn layui-btn-danger new-icon">new</button>
+                                </h3>
+                                <h5>{$vo.cname}</h5>
+                                <p>
+                                    {$vo.digest}</p>
+                                <a href="details.html" class="go-icon"></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {/volist}
+        </div>
+        <div class="layui-box layui-laypage layui-laypage-default" style="text-align: center;">{$article_list->render()}</div>
+    </div>
+</div>
+{include file="common/footer" /}

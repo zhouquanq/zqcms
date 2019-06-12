@@ -16,8 +16,8 @@ class Login extends Controller{
     }
     // 登录操作
     public function login(){
+
         if (Request::instance()->isPost()) {
-            echo "123";die;
             $username = input('post.username');
             $password = md5(input('post.password'));
             //查询数据试库

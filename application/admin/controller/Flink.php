@@ -19,7 +19,7 @@ class Flink extends Auth{
     // 友链修改页面
     public function edit(){
         //修改查询旧数据
-        $map['tid'] = input("get.tid");
+        $map['fid'] = input("get.fid");
         $oldflink =  Db::name('flink')->where($map)->find();
         $this->assign('oldflink',$oldflink);
         return $this->fetch();
@@ -91,25 +91,18 @@ class Flink extends Auth{
     public function do_edit(){
         if(Request::instance()->isPost()){
             $data = input('post.');
-            $tid = input('get.tid');
-            $map['flinkname'] = $data['flinkname'];
-            $old_flink = Db::name('flink')->where("tid = $tid")->find();
-            $is_flink =  Db::name('flink')->where($map)->find();
-            if($is_flink && $old_flink['flinkname'] != $data['flinkname']){
-                return json(["status"=>0,"msg"=>"修改失败，标签名已存在！"]);
-            }
-            //调用验证器
-            $validate = new \app\admin\validate\flink;
-            $validateData = ['flinkname' => $data['flinkname']];
-            //验证是否符合验证器里定义(验证码)的规范,不符合返回错误信息
+            $fid = input('get.fid');
+            //调用验证器自动验证flink
+            $validate = new \app\admin\validate\Flink;
+            $validateData = ['fname' => $data['fname'], 'msg' => $data['msg'], 'sort' => $data['sort'], 'url' => $data['url']];
             if (!$validate->check($validateData)) {
                 return json(["status"=>0,"msg"=>$validate->getError()]);
             }
-            $re =  Db::name('flink')->where('tid',$tid)->update($data);
+            $re =  Db::name('flink')->where('fid',$fid)->update($data);
             if($re){
-                return json(["status"=>1,"msg"=>"标签修改成功！"]);
+                return json(["status"=>1,"msg"=>"友链修改成功！"]);
             }else{
-                return json(["status"=>0,"msg"=>"标签修改失败！"]);
+                return json(["status"=>0,"msg"=>"友链修改失败！"]);
             }
         }
     }
