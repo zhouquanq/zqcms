@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\wamp64\www\zqcms\public/../application/index\view\index\index.html";i:1560567581;s:61:"D:\wamp64\www\zqcms\application\index\view\common\header.html";i:1560325159;s:58:"D:\wamp64\www\zqcms\application\index\view\common\top.html";i:1560739685;s:61:"D:\wamp64\www\zqcms\application\index\view\common\footer.html";i:1560740804;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\wamp64\www\zqcms\public/../application/index\view\about\index.html";i:1560739333;s:61:"D:\wamp64\www\zqcms\application\index\view\common\header.html";i:1560325159;s:58:"D:\wamp64\www\zqcms\application\index\view\common\top.html";i:1560739685;s:61:"D:\wamp64\www\zqcms\application\index\view\common\footer.html";i:1560740804;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -42,58 +42,73 @@
         欢迎来到<span class="name">我</span>的博客~
     </p>
 </div>
-<div class="banner">
-    <div class="cont w1000">
-        <div class="title">
-            <h3>MY<br/>BLOG</h3>
-            <h4>well-balanced heart</h4>
+<div class="about-content">
+    <div class="w1000">
+        <div class="item info">
+            <div class="title">
+                <h3>我的介绍</h3>
+            </div>
+            <div class="cont">
+                <img src="/static/index/img/xc_img1.jpg">
+                <div class="per-info">
+                    <p>
+                        <span class="name">小明</span><br/>
+                        <span class="age">24岁</span><br/>
+                        <span class="Career">设计师, 前端工程师</span><br/>
+                        <span class="interest">爱好旅游,打游戏</span>
+                    </p>
+                </div>
+            </div>
         </div>
-        <div class="amount">
-            <p><span class="text">访问量</span><span class="access">99</span></p>
-            <p><span class="text">日志</span><span class="daily-record">99</span></p>
-        </div>
-    </div>
-</div>
-<div class="content">
-    <div class="cont w1000">
-        <div class="title">
-        <span class="layui-breadcrumb" lay-separator="|">
-          <a href="javascript:;" class="active">设计文章</a>
-          <a href="javascript:;">前端文章</a>
-          <a href="javascript:;">旅游杂记</a>
-        </span>
-        </div>
-        <div class="list-item">
-            <?php if(is_array($article_list) || $article_list instanceof \think\Collection || $article_list instanceof \think\Paginator): $k = 0; $__LIST__ = $article_list;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($k % 2 );++$k;?>
-            <div class="item">
-                <div class="layui-fluid">
-                    <div class="layui-row">
-                        <div class="layui-col-xs12 layui-col-sm4 layui-col-md5">
-                            <?php if($vo['thumb'] == ''): ?>
-                            <div class="img"><img src="/static/index/img/sy_img<?php echo(rand(1,5)); ?>.jpg" alt=""></div>
-                            <?php else: ?>
-                            <div class="img"><img src="{vo.thumb}" alt=""></div>
-                            <?php endif; ?>
+        <div class="item tool">
+            <div class="title">
+                <h3>我的技能</h3>
+            </div>
+            <div class="layui-fluid">
+                <div class="layui-row">
+                    <div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+                        <div class="cont-box">
+                            <img src="/static/index/img/gr_img2.jpg">
+                            <p>80%</p>
                         </div>
-                        <div class="layui-col-xs12 layui-col-sm8 layui-col-md7">
-                            <div class="item-cont">
-                                <h3><?php echo $vo['title']; ?>
-                                    <button class="layui-btn layui-btn-danger new-icon">new</button>
-                                </h3>
-                                <h5><?php echo $vo['cname']; ?></h5>
-                                <p>
-                                    <?php echo $vo['digest']; ?></p>
-                                <a href="details.html" class="go-icon"></a>
-                            </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+                        <div class="cont-box">
+                            <img src="/static/index/img/gr_img3.jpg">
+                            <p>80%</p>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+                        <div class="cont-box">
+                            <img src="/static/index/img/gr_img4.jpg">
+                            <p>80%</p>
+                        </div>
+                    </div>
+                    <div class="layui-col-xs6 layui-col-sm3 layui-col-md3">
+                        <div class="cont-box">
+                            <img src="/static/index/img/gr_img5.jpg">
+                            <p>80%</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <?php endforeach; endif; else: echo "" ;endif; ?>
         </div>
-        <div class="layui-box layui-laypage layui-laypage-default" style="text-align: center;"><?php echo $article_list->render(); ?></div>
+        <div class="item contact">
+            <div class="title">
+                <h3>联系方式</h3>
+            </div>
+            <div class="cont">
+                <img src="/static/index/img/erweima.jpg">
+                <div class="text">
+                    <p class="WeChat">微信：<span>1234567890</span></p>
+                    <p class="qq">qq：<span>123456789</span></p>
+                    <p class="iphone">电话：<span>123456789</span></p>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+
 <div class="footer-wrap">
     <div class="footer w1000">
         <div class="qrcode">

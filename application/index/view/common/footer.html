@@ -14,6 +14,7 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.3.0/jquery.min.js"></script>
 <script type="text/javascript" src="__STATIC__/index/layui/layui.js"></script>
 <script type="text/javascript">
     layui.config({
@@ -25,7 +26,23 @@
             , count: 70 //数据总数，从服务端得到
         });
         menu.init();
-    })
+    });
+
+
+    // $(".nav a").bind('click', function(){
+    //     $(this).addClass('active').siblings().removeClass('active');
+    // });
+
+    $(document).ready(function(){
+        $(".nav a").each(function(){
+            $this = $(this);
+            if($this[0].href==String(window.location)){
+                $this.addClass("active").siblings().removeClass('active');
+            }
+        });
+    });
 </script>
+
+
 </body>
 </html>
