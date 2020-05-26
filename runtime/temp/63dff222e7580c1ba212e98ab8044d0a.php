@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\wamp64\www\zqcms\public/../application/index\view\index\index.html";i:1560567581;s:61:"D:\wamp64\www\zqcms\application\index\view\common\header.html";i:1560325159;s:58:"D:\wamp64\www\zqcms\application\index\view\common\top.html";i:1560739685;s:61:"D:\wamp64\www\zqcms\application\index\view\common\footer.html";i:1560740804;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:4:{s:69:"D:\wamp64\www\zqcms\public/../application/index\view\index\index.html";i:1590488640;s:61:"D:\wamp64\www\zqcms\application\index\view\common\header.html";i:1590488640;s:58:"D:\wamp64\www\zqcms\application\index\view\common\top.html";i:1590488640;s:61:"D:\wamp64\www\zqcms\application\index\view\common\footer.html";i:1590488640;}*/ ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
